@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+PROJECTPATH="."
+MESSAGE="Initial commit."
+NODE=false
+CODEEDITOR=""
+BROWSER=""
+LINK=false

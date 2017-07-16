@@ -4,8 +4,8 @@
 PROJECTNAME=$1
 
 ## Source config file
-if [[ -f ~/.lambo/config ]]; then
-    source ~/.lambo/config
+if [[ -f ~/.lamsaw/config ]]; then
+    source ~/.lamsaw/config
 fi
 
 ## Define Functions
@@ -64,9 +64,25 @@ function showhelp () {
     pretty_print "Usage:" warning
     pretty_print "  lamsaw myApplication [arguments]"
     pretty_print ""
+    pretty_print "Commands (lamsaw COMMANDNAME):" warning
+    pretty_print "  make-config                   Generate config file"
+    pretty_print ""
     pretty_print "Options (lamsaw myApplication OPTIONS):" warning
-    pretty_print " -h, --help                    Show brief help"
+    pretty_print "  -h, --help                    Show brief help"
     quit
+}
+
+function makeconfig () {
+    if [[ -f ~/.lamsaw/config ]]; then
+        pretty_print "Config already exists." warning
+        quit
+    fi
+
+    if [[ ! -d ~/.lamsaw ]]; then
+      mkdir ~/.lamsaw
+    fi
+
+    cp templates/config ~/.lamsaw/config
 }
 
 function command_exists () {
@@ -98,6 +114,11 @@ function quit () {
     exit 0
 }
 
+## Handle Commands
+if [[ $1 == "make-config" ]]; then
+    makeconfig
+    quit
+fi
 
 ## Handle Arguments
 while [[ $# -gt 0 ]]; do
