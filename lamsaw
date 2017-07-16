@@ -1,2 +1,31 @@
 #!/usr/bin/env bash
 
+# Define Variables
+PROJECTNAME=$1
+PROJECTPATH="."
+
+# Make project directory
+mkdir ${PROJECTNAME}
+
+# cd into it
+cd ${PROJECTNAME}
+
+# composer require jigsaw
+composer require tightenco/jigsaw
+
+# jigsaw init
+./vendor/bin/jigsaw init
+
+# yarn || npm install
+yarn
+
+# build site
+gulp
+
+# git init
+git init
+git add .
+git commit -m 'initial commit'
+
+# Open Editor
+subl .
