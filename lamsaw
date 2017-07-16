@@ -54,6 +54,9 @@ function run () {
     if command_exists subl; then
         subl .
     fi
+
+    # Load after file
+    loadafterfile
 }
 
 function showhelp () {
@@ -66,6 +69,7 @@ function showhelp () {
     pretty_print ""
     pretty_print "Commands (lamsaw COMMANDNAME):" warning
     pretty_print "  make-config                   Generate config file"
+    pretty_print "  make-after                    Generate after file"
     pretty_print ""
     pretty_print "Options (lamsaw myApplication OPTIONS):" warning
     pretty_print "  -h, --help                    Show brief help"
@@ -83,6 +87,27 @@ function makeconfig () {
     fi
 
     cp templates/config ~/.lamsaw/config
+}
+
+function makeafter () {
+    if [[ -f ~/.lamsaw/after ]]; then
+        pretty_print "After file already exists." warning
+        quit
+    fi
+
+    if [[ ! -d ~/.lamsaw ]]; then
+      mkdir ~/.lamsaw
+    fi
+
+    cp templates/after ~/.lamsaw/after
+}
+
+function loadafterfile () {
+    ## Load after file if it exists
+    if [[ -f ~/.lamsaw/after ]]; then
+        pretty_print "Running additional commands..." success
+        source ~/.lamsaw/after
+    fi
 }
 
 function command_exists () {
