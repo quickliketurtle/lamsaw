@@ -52,6 +52,19 @@ function run () {
     fi
 }
 
+function showhelp () {
+    pretty_print ""
+    pretty_print "Lamsaw: Super-powered Jigsaw setup script" success
+    pretty_print "________________________________________________________"
+    pretty_print ""
+    pretty_print "Usage:" warning
+    pretty_print "  lamsaw myApplication [arguments]"
+    pretty_print ""
+    pretty_print "Options (lamsaw myApplication OPTIONS):" warning
+    pretty_print " -h, --help                    Show brief help"
+    quit
+}
+
 function command_exists () {
     command=$1
 
@@ -80,6 +93,20 @@ function quit () {
     trap : 0
     exit 0
 }
+
+
+## Handle Arguments
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+        -h|--help)
+            showhelp
+            ;;
+    esac
+
+    shift
+done
 
 ## Run the script
 run
