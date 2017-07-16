@@ -40,9 +40,10 @@ function run () {
             npm install
         fi
 
-    # Build site
-    if command_exists gulp; then
-        gulp
+        # Build site
+        if command_exists gulp; then
+            gulp
+        fi
     fi
 
     # Init Git and make first commit
