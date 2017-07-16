@@ -50,7 +50,7 @@ function run () {
     if command_exists git; then
         git init
         git add .
-        git commit -m 'initial commit'
+        git commit -m "${MESSAGE}"
     fi
 
     # Open Editor
