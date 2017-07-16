@@ -6,9 +6,10 @@ PROJECTPATH="."
 
 ## Define Functions
 function run () {
+
     # Make project directory
     if [[ -d ${PROJECTPATH/$PROJECTNAME } ]]; then
-        echo "Project already exists"
+        pretty_print "Project already exists" danger
         quit
     fi
 
@@ -55,9 +56,24 @@ function command_exists () {
     command=$1
 
     if ! hash ${command} 2> /dev/null; then
-        echo "Command ${command} not found"
+        pretty_print "Command ${command} not found" danger
         quit
     fi
+}
+
+function pretty_print () {
+    if [[ $2 = "danger" ]]; then
+        tput setaf 1
+    fi
+    if [[ $2 = "success" ]]; then
+        tput setaf 2
+    fi
+    if [[ $2 = "warning" ]]; then
+        tput setaf 3
+    fi
+
+    echo $1
+    tput sgr0
 }
 
 function quit () {
