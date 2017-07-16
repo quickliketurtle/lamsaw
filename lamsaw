@@ -33,10 +33,12 @@ function run () {
     fi
 
     # Run yarn
-    # TODO: add fallback to npm
-    if command_exists yarn; then
-        yarn
-    fi
+    if [[ ${NODE} = true ]]; then
+        if command_exists yarn; then
+            yarn
+        elif command_exists npm; then
+            npm install
+        fi
 
     # Build site
     if command_exists gulp; then
