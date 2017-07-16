@@ -54,8 +54,9 @@ function run () {
     fi
 
     # Open Editor
-    if command_exists subl; then
-        subl .
+    if command_exists ${CODEEDITOR}; then
+        $CODEEDITOR .
+    fi
     fi
 
     # Load after file
