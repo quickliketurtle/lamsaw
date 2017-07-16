@@ -1,31 +1,69 @@
 #!/usr/bin/env bash
 
-# Define Variables
+## Define Variables
 PROJECTNAME=$1
 PROJECTPATH="."
 
-# Make project directory
-mkdir ${PROJECTNAME}
+## Define Functions
+function run () {
+    # Make project directory
+    if [[ -d ${PROJECTPATH/$PROJECTNAME } ]]; then
+        echo "Project already exists"
+        quit
+    fi
 
-# cd into it
-cd ${PROJECTNAME}
+    mkdir ${PROJECTNAME}
 
-# composer require jigsaw
-composer require tightenco/jigsaw
+    # cd into it
+    cd ${PROJECTNAME}
 
-# jigsaw init
-./vendor/bin/jigsaw init
+    # composer require jigsaw
+    if  command_exists composer; then
+        composer require tightenco/jigsaw
+    fi
 
-# yarn || npm install
-yarn
+    # Initialize new Jigsaw project
+    if command_exists ./vendor/bin/jigsaw; then
+        ./vendor/bin/jigsaw init
+    fi
 
-# build site
-gulp
+    # Run yarn
+    # TODO: add fallback to npm
+    if command_exists yarn; then
+        yarn
+    fi
 
-# git init
-git init
-git add .
-git commit -m 'initial commit'
+    # Build site
+    if command_exists gulp; then
+        gulp
+    fi
 
-# Open Editor
-subl .
+    # Init Git and make first commit
+    if command_exists git; then
+        git init
+        git add .
+        git commit -m 'initial commit'
+    fi
+
+    # Open Editor
+    if command_exists subl; then
+        subl .
+    fi
+}
+
+function command_exists () {
+    command=$1
+
+    if ! hash ${command} 2> /dev/null; then
+        echo "Command ${command} not found"
+        quit
+    fi
+}
+
+function quit () {
+    trap : 0
+    exit 0
+}
+
+## Run the script
+run
