@@ -2,21 +2,25 @@
 
 ## Define Variables
 PROJECTNAME=$1
-PROJECTPATH="."
+
+## Source config file
+if [[ -f ~/.lambo/config ]]; then
+    source ~/.lambo/config
+fi
 
 ## Define Functions
 function run () {
 
     # Make project directory
-    if [[ -d ${PROJECTPATH/$PROJECTNAME } ]]; then
-        pretty_print "Project already exists" danger
+    if [[ -d ${PROJECTPATH}/${PROJECTNAME} ]]; then
+        pretty_print "${PROJECTPATH}/${PROJECTNAME} already exists" danger
         quit
     fi
 
-    mkdir ${PROJECTNAME}
+    mkdir ${PROJECTPATH}/${PROJECTNAME}
 
     # cd into it
-    cd ${PROJECTNAME}
+    cd ${PROJECTPATH}/${PROJECTNAME}
 
     # composer require jigsaw
     if  command_exists composer; then
