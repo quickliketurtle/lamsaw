@@ -2,6 +2,8 @@
 
 ## Define Variables
 PROJECTNAME=$1
+TLD=$(php -r "echo json_decode(file_get_contents('$HOME/.valet/config.json'))->domain;")
+PROJECTURL="http://${PROJECTNAME}.${TLD}"
 
 ## Source config file
 if [[ -f ~/.lamsaw/config ]]; then
@@ -57,6 +59,14 @@ function run () {
     if command_exists ${CODEEDITOR}; then
         $CODEEDITOR .
     fi
+
+    # Open Browser
+    if [[ -d "build_local" ]]; then
+        if [[ "${BROWSER}" != "" ]]; then
+            open -a "${BROWSER}" "${PROJECTURL}"
+        else
+            open "{$PROJECTURL}"
+        fi
     fi
 
     # Load after file
