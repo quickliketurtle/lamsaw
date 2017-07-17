@@ -11,7 +11,7 @@ if [[ -f "${HOME}/.lamsaw/config" ]]; then
 fi
 
 ## Define Functions
-function run () {
+run() {
 
     ### Make project directory
     if [[ -d "${PROJECTPATH}/${PROJECTNAME}" ]]; then
@@ -73,7 +73,7 @@ function run () {
     load_after_file
 }
 
-function show_help () {
+show_help() {
     pretty_print ""
     pretty_print "Lamsaw: Super-powered Jigsaw setup script" success
     pretty_print "________________________________________________________"
@@ -90,7 +90,7 @@ function show_help () {
     quit
 }
 
-function make_config () {
+make_config() {
     if [[ -f "${HOME}/.lamsaw/config" ]]; then
         pretty_print "Config already exists." warning
         quit
@@ -103,7 +103,7 @@ function make_config () {
     cp templates/config "${HOME}/.lamsaw/config"
 }
 
-function make_after () {
+make_after() {
     if [[ -f "${HOME}/.lamsaw/after" ]]; then
         pretty_print "After file already exists." warning
         quit
@@ -116,14 +116,14 @@ function make_after () {
     cp templates/after "${HOME}/.lamsaw/after"
 }
 
-function load_after_file () {
+load_after_file() {
     if [[ -f "${HOME}/.lamsaw/after" ]]; then
         pretty_print "Running additional commands..." success
         source "${HOME}/.lamsaw/after"
     fi
 }
 
-function command_exists () {
+command_exists() {
     command=$1
 
     if ! hash "${command}" 2> /dev/null; then
@@ -132,7 +132,7 @@ function command_exists () {
     fi
 }
 
-function pretty_print () {
+pretty_print() {
     if [[ $2 = "danger" ]]; then
         tput setaf 1 ### Red
     fi
@@ -147,7 +147,7 @@ function pretty_print () {
     tput sgr0 ### Reset
 }
 
-function quit () {
+quit() {
     trap : 0
     exit 0
 }
