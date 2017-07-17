@@ -1,0 +1,18 @@
+{
+    "name": "quickliketurtle/lamsaw",
+    "description": "Lambo for Jigsaw",
+    "keywords": ["jigsaw", "lambo"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeff Finley",
+            "email": "quickliketurtle@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "bin": [
+        "lamsaw"
+    ]
+}
