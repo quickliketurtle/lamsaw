@@ -152,6 +152,11 @@ quit() {
     exit 0
 }
 
+## If not arguments, show help
+if [[ $# -eq 0 ]]; then
+    show_help
+fi
+
 ## Handle Commands
 if [[ $1 == "make-config" ]]; then
     make_config
