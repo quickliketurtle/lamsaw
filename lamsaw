@@ -13,7 +13,7 @@ fi
 ## Define Functions
 function run () {
 
-    # Make project directory
+    ### Make project directory
     if [[ -d ${PROJECTPATH}/${PROJECTNAME} ]]; then
         pretty_print "${PROJECTPATH}/${PROJECTNAME} already exists" danger
         quit
@@ -21,20 +21,20 @@ function run () {
 
     mkdir ${PROJECTPATH}/${PROJECTNAME}
 
-    # cd into it
+    ### cd into it
     cd ${PROJECTPATH}/${PROJECTNAME}
 
-    # composer require jigsaw
+    ### composer require jigsaw
     if  command_exists composer; then
         composer require tightenco/jigsaw
     fi
 
-    # Initialize new Jigsaw project
+    ### Initialize new Jigsaw project
     if command_exists ./vendor/bin/jigsaw; then
         ./vendor/bin/jigsaw init
     fi
 
-    # Run yarn
+    ### Run yarn || npm install
     if [[ ${NODE} = true ]]; then
         if command_exists yarn; then
             yarn
@@ -42,25 +42,25 @@ function run () {
             npm install
         fi
 
-        # Build site
+        ### Build site
         if command_exists gulp; then
             gulp
         fi
     fi
 
-    # Init Git and make first commit
+    ### Init Git and make first commit
     if command_exists git; then
         git init
         git add .
         git commit -m "${MESSAGE}"
     fi
 
-    # Open Editor
+    ### Open Editor
     if command_exists ${CODEEDITOR}; then
         $CODEEDITOR .
     fi
 
-    # Open Browser
+    ### Open Browser
     if [[ -d "build_local" ]]; then
         if [[ "${BROWSER}" != "" ]]; then
             open -a "${BROWSER}" "${PROJECTURL}"
@@ -69,7 +69,7 @@ function run () {
         fi
     fi
 
-    # Load after file
+    ### Load after file
     loadafterfile
 }
 
