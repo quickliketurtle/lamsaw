@@ -12,7 +12,6 @@ fi
 
 ## Define Functions
 run() {
-
     ### Make project directory
     if [[ -d "${PROJECTPATH}/${PROJECTNAME}" ]]; then
         pretty_print "${PROJECTPATH}/${PROJECTNAME} already exists" danger
