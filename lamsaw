@@ -59,6 +59,13 @@ run() {
         "${CODEEDITOR}" .
     fi
 
+    ### Valet Link
+    if [[ "${LINK}" = true ]]; then
+        if command_exists valet; then
+            valet link "${PROJECTNAME}"
+        fi
+    fi
+
     ### Open Browser
     if [[ -d "build_local" ]]; then
         if [[ "${BROWSER}" != "" ]]; then
