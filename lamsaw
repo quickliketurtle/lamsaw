@@ -2,27 +2,27 @@
 
 ## Define Variables
 PROJECTNAME=$1
-TLD=$(php -r "echo json_decode(file_get_contents('$HOME/.valet/config.json'))->domain;")
+TLD=$(php -r "echo json_decode(file_get_contents('${HOME}/.valet/config.json'))->domain;")
 PROJECTURL="http://${PROJECTNAME}.${TLD}"
 
 ## Source config file
-if [[ -f ~/.lamsaw/config ]]; then
-    source ~/.lamsaw/config
+if [[ -f "${HOME}/.lamsaw/config" ]]; then
+    source "${HOME}/.lamsaw/config"
 fi
 
 ## Define Functions
 function run () {
 
     ### Make project directory
-    if [[ -d ${PROJECTPATH}/${PROJECTNAME} ]]; then
+    if [[ -d "${PROJECTPATH}/${PROJECTNAME}" ]]; then
         pretty_print "${PROJECTPATH}/${PROJECTNAME} already exists" danger
         quit
     fi
 
-    mkdir ${PROJECTPATH}/${PROJECTNAME}
+    mkdir "${PROJECTPATH}/${PROJECTNAME}"
 
     ### cd into it
-    cd ${PROJECTPATH}/${PROJECTNAME}
+    cd "${PROJECTPATH}/${PROJECTNAME}" || exit
 
     ### composer require jigsaw
     if  command_exists composer; then
@@ -35,7 +35,7 @@ function run () {
     fi
 
     ### Run yarn || npm install
-    if [[ ${NODE} = true ]]; then
+    if [[ "${NODE}" = true ]]; then
         if command_exists yarn; then
             yarn
         elif command_exists npm; then
@@ -56,8 +56,8 @@ function run () {
     fi
 
     ### Open Editor
-    if command_exists ${CODEEDITOR}; then
-        $CODEEDITOR .
+    if command_exists "${CODEEDITOR}"; then
+        "${CODEEDITOR}" .
     fi
 
     ### Open Browser
@@ -65,15 +65,15 @@ function run () {
         if [[ "${BROWSER}" != "" ]]; then
             open -a "${BROWSER}" "${PROJECTURL}"
         else
-            open "{$PROJECTURL}"
+            open "${PROJECTURL}"
         fi
     fi
 
     ### Load after file
-    loadafterfile
+    load_after_file
 }
 
-function showhelp () {
+function show_help () {
     pretty_print ""
     pretty_print "Lamsaw: Super-powered Jigsaw setup script" success
     pretty_print "________________________________________________________"
@@ -90,44 +90,43 @@ function showhelp () {
     quit
 }
 
-function makeconfig () {
-    if [[ -f ~/.lamsaw/config ]]; then
+function make_config () {
+    if [[ -f "${HOME}/.lamsaw/config" ]]; then
         pretty_print "Config already exists." warning
         quit
     fi
 
-    if [[ ! -d ~/.lamsaw ]]; then
-      mkdir ~/.lamsaw
+    if [[ ! -d "${HOME}/.lamsaw" ]]; then
+      mkdir "${HOME}/.lamsaw"
     fi
 
-    cp templates/config ~/.lamsaw/config
+    cp templates/config "${HOME}/.lamsaw/config"
 }
 
-function makeafter () {
-    if [[ -f ~/.lamsaw/after ]]; then
+function make_after () {
+    if [[ -f "${HOME}/.lamsaw/after" ]]; then
         pretty_print "After file already exists." warning
         quit
     fi
 
-    if [[ ! -d ~/.lamsaw ]]; then
-      mkdir ~/.lamsaw
+    if [[ ! -d "${HOME}/.lamsaw" ]]; then
+      mkdir "${HOME}/.lamsaw"
     fi
 
-    cp templates/after ~/.lamsaw/after
+    cp templates/after "${HOME}/.lamsaw/after"
 }
 
-function loadafterfile () {
-    ## Load after file if it exists
-    if [[ -f ~/.lamsaw/after ]]; then
+function load_after_file () {
+    if [[ -f "${HOME}/.lamsaw/after" ]]; then
         pretty_print "Running additional commands..." success
-        source ~/.lamsaw/after
+        source "${HOME}/.lamsaw/after"
     fi
 }
 
 function command_exists () {
     command=$1
 
-    if ! hash ${command} 2> /dev/null; then
+    if ! hash "${command}" 2> /dev/null; then
         pretty_print "Command ${command} not found" danger
         quit
     fi
@@ -135,17 +134,17 @@ function command_exists () {
 
 function pretty_print () {
     if [[ $2 = "danger" ]]; then
-        tput setaf 1
+        tput setaf 1 ### Red
     fi
     if [[ $2 = "success" ]]; then
-        tput setaf 2
+        tput setaf 2 ### Green
     fi
     if [[ $2 = "warning" ]]; then
-        tput setaf 3
+        tput setaf 3 ### Orange
     fi
 
     printf '%s\n' "$1"
-    tput sgr0
+    tput sgr0 ### Reset
 }
 
 function quit () {
@@ -155,7 +154,7 @@ function quit () {
 
 ## Handle Commands
 if [[ $1 == "make-config" ]]; then
-    makeconfig
+    make_config
     quit
 fi
 
@@ -165,7 +164,7 @@ while [[ $# -gt 0 ]]; do
 
     case $key in
         -h|--help)
-            showhelp
+            show_help
             ;;
     esac
 
